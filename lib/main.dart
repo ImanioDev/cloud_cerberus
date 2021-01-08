@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         home: MyBottomNavigationBar(),
       );
-      print('Fue Cero ');
+      print('Fue Cero');
     } else {
       return new MaterialApp(
         debugShowCheckedModeBanner: false,
