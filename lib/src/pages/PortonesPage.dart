@@ -32,11 +32,11 @@ class _PortonesPageState extends State<PortonesPage> {
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
         children: <Widget>[
           Divider(
-            height: 30,
+            height: 20,
           ),
           _logoCerberus(),
           Divider(
-            height: 30,
+            height: 20,
           ),
           _activarPeatonalAcceso(),
           Divider(),
@@ -51,6 +51,7 @@ class _PortonesPageState extends State<PortonesPage> {
           //_textoAlmacenado(_mostrarArgumento),
         ],
       ),
+      backgroundColor: Colors.white,
     );
   }
 
@@ -142,9 +143,10 @@ class _PortonesPageState extends State<PortonesPage> {
 
       var _respuesta2 = await http.get(url2);
       if (_respuesta2.body == null) {}
-      String _resp3 = _respuesta2.toString();
+      String _resp3 = _respuesta2.body.toString();
       print(_resp3);
     }
+    return (_resp2);
   }
 
   //salida1 = int.parse(respuesta.body.substring(11, 12));
@@ -156,7 +158,7 @@ class _PortonesPageState extends State<PortonesPage> {
               str.substring(2,8); // zkoder
               str.substring(3);   // koder.com*/
 
-  Future<String> _desconectarWeb(String _servicio, String _usuario) async {
+  /* Future<String> _desconectarWeb(String _servicio, String _usuario) async {
     _usuario = prefs.usuario.toString();
     _servicio = prefs.servicio;
     print(_usuario);
@@ -184,9 +186,10 @@ class _PortonesPageState extends State<PortonesPage> {
       String _resp5 = _respuesta4.toString();
       print(_resp5);
     }
+    return (_resp4);
   }
-
-  Future<String> _checarStatus() async {
+*/
+  /*Future<String> _checarStatus() async {
     _usuario = prefs.usuario.toString();
     _servicio = prefs.servicio;
     String url6 = "http://alarmasvecinales.tk/checar2?servicio=" + _servicio;
@@ -202,7 +205,7 @@ class _PortonesPageState extends State<PortonesPage> {
     _mostrarArgumento = _respuesta10;
     return (_mostrarArgumento);
   }
-
+*/
   Widget _logoCerberus() {
     return Image.network('http://alarmasvecinales.tk/images/logoapp.jpg',
         height: 100, width: 100);

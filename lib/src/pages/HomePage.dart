@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:cloud_cerberus_v4/src/share_prefs/preferencias_usuario.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 int salida1 = 0;
 int salida2 = 0;
@@ -18,7 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
+  //@override
   final prefs = new PreferenciasUsuario();
 
   void initState() {
@@ -38,20 +39,28 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
         children: <Widget>[
           Divider(
-            height: 30,
+            height: 20,
           ),
           _logoCerberus(),
           Divider(
-            height: 30,
+            height: 20,
           ),
           _crearUsuario(),
-          Divider(),
+          Divider(
+            height: 10,
+          ),
           _crearPassword(),
-          Divider(),
+          Divider(
+            height: 10,
+          ),
           _crearServicio(),
-          Divider(),
+          Divider(
+            height: 10,
+          ),
           _botonEncenderAlarma(),
-          Divider(),
+          Divider(
+            height: 10,
+          ),
           _textoAlmacenado(mostrarArgumento),
         ],
       ),
@@ -76,68 +85,93 @@ class _HomePageState extends State<HomePage> {
       child: Text(
         mostrarArgumento,
         style: TextStyle(
-            color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 20),
+            color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 15),
       ),
     );
   }
 
   Widget _crearUsuario() {
-    return TextField(
-      //autofocus: true,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-          counter: Text('Letras ${_usuario.length}'),
-          hintText: 'Numero de Usuario',
-          labelText: 'Usuario',
-          helperText: 'Numero de Usuario que se asignó en plataforma',
-          suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_circle)),
-      onChanged: (valor) {
-        setState(() {
-          _usuario = valor;
-        });
-      },
+    return Container(
+      width: 50.0,
+      child: TextField(
+        style: TextStyle(
+          height: 0.8,
+          fontSize: 16.0,
+        ),
+        //autofocus: true,
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            counter: Text('Letras ${_usuario.length}'),
+            hintText: 'Numero de Usuario',
+            labelText: 'Usuario',
+            helperText: 'Numero de Usuario que se asignó en plataforma',
+            suffixIcon: Icon(Icons.accessibility),
+            icon: Icon(Icons.account_circle)),
+        keyboardType: TextInputType.number,
+        onChanged: (valor) {
+          setState(() {
+            _usuario = valor;
+          });
+        },
+      ),
     );
   }
 
   Widget _crearPassword() {
-    return TextField(
-      //autofocus: true,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-          counter: Text('Letras ${_password.length}'),
-          hintText: 'Password',
-          labelText: 'Password',
-          helperText: 'Password provisto al administrador',
-          suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_circle)),
-      onChanged: (valor) {
-        setState(() {
-          _password = valor;
-        });
-      },
+    return Container(
+      width: 50.0,
+      child: TextField(
+        //autofocus: true,
+        style: TextStyle(
+          height: 0.8,
+        ),
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            counter: Text('Letras ${_password.length}'),
+            hintText: 'Password',
+            labelText: 'Password',
+            helperText: 'Password provisto al administrador',
+            suffixIcon: Icon(Icons.accessibility),
+            icon: Icon(Icons.account_box)),
+        keyboardType: TextInputType.number,
+        onChanged: (valor) {
+          setState(() {
+            _password = valor;
+          });
+        },
+      ),
     );
   }
 
   Widget _crearServicio() {
-    return TextField(
-      //autofocus: true,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
-          counter: Text('Letras ${_servicio.length}'),
-          hintText: 'Numero de Servicio',
-          labelText: 'Numero de Servicio',
-          helperText: 'Numero de Servicio provisto al Administrador',
-          suffixIcon: Icon(Icons.accessibility),
-          icon: Icon(Icons.account_circle)),
-      onChanged: (valor) {
-        setState(() {
-          _servicio = valor;
-        });
-      },
+    return Container(
+      width: 50.0,
+      child: TextField(
+        style: TextStyle(
+          height: 0.8,
+        ),
+        //autofocus: true,
+        textCapitalization: TextCapitalization.sentences,
+        decoration: InputDecoration(
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            counter: Text('Letras ${_servicio.length}'),
+            hintText: 'Numero de Servicio',
+            labelText: 'Numero de Servicio',
+            helperText: 'Numero de Servicio provisto al Administrador',
+            suffixIcon: Icon(Icons.accessibility),
+            icon: Icon(Icons.electrical_services)),
+        keyboardType: TextInputType.number,
+        onChanged: (valor) {
+          setState(() {
+            _servicio = valor;
+          });
+        },
+      ),
     );
   }
 
@@ -148,7 +182,8 @@ class _HomePageState extends State<HomePage> {
           "&servicio=" +
           _servicio;
       var respuesta = await http.get(url);
-      String resp2 = respuesta.toString();
+      String resp2 = respuesta.body.toString();
+      print(resp2);
       if ((respuesta.body == null) || (respuesta.body == '')) {
         print("Devolvio 0...");
         prefs.validezMemoria = '0';
@@ -163,6 +198,7 @@ class _HomePageState extends State<HomePage> {
         prefs.usuario = int.parse(_usuario);
         mostrarArgumento = 'Salga de la aplicación y vuelva a ingresar...';
         setState(() {});
+        Phoenix.rebirth(context);
         print(validez);
       }
     }
@@ -175,10 +211,11 @@ class _HomePageState extends State<HomePage> {
               str.substring(0,8); // bezkoder
               str.substring(2,8); // zkoder
               str.substring(3);   // koder.com*/
+    return (mostrarArgumento);
   }
 
   Widget _logoCerberus() {
     return Image.network('http://alarmasvecinales.tk/images/logoapp.jpg',
-        height: 100, width: 100);
+        height: 75, width: 75);
   }
 }

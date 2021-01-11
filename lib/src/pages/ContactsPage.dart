@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:cloud_cerberus_v4/src/share_prefs/preferencias_usuario.dart';
+//import 'package:http/http.dart' as http;
+//import 'package:cloud_cerberus_v4/src/share_prefs/preferencias_usuario.dart';
 
 class ContactsPage extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _ContactsPageState extends State<ContactsPage> {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('lib/src/images/contacto.jpg'),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         child: Center(

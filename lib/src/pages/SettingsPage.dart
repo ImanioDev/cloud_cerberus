@@ -8,6 +8,7 @@ String _mostrarArgumento = 'Test';
 final prefs = new PreferenciasUsuario();
 String _usuario = '';
 String _servicio = '';
+int esperate = 0;
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -21,14 +22,18 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
     _servicio = prefs.servicio;
     _usuario = prefs.usuario.toString();
-    Timer _timer;
 
-    _timer = Timer.periodic(Duration(seconds: 4), (timer) {
-      setState(() {
-        //_mostrarArgumento = "Periodic " + (DateTime.now().second).toString();
-        _checarStatus();
-        _mostrarArgumento = _mostrarArgumento;
-      });
+    Timer _timer;
+    print(_timer);
+
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (mounted == true) {
+        setState(() {
+          if (esperate == 0) {
+            _mostrarArgumento = prefs.argumentoFinal;
+          }
+        });
+      }
     });
   }
 
@@ -41,25 +46,32 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2),
         children: <Widget>[
           Divider(
-            height: 30,
+            height: 20,
           ),
           _logoCerberus(),
           Divider(
-            height: 30,
+            height: 20,
           ),
           _activarEmergencia(),
-          Divider(),
+          Divider(
+            height: 10,
+          ),
           _activarMedica(),
-          Divider(),
+          Divider(
+            height: 10,
+          ),
           _activarViolencia(),
-          Divider(),
+          Divider(
+            height: 10,
+          ),
           _desactivarTodo(),
           Divider(
-            height: 50,
+            height: 20,
           ),
           _textoAlmacenado(_mostrarArgumento),
         ],
       ),
+      backgroundColor: Colors.white,
     );
   }
 
@@ -118,7 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _textoAlmacenado(String valor) {
     return Center(
       child: Text(
-        _mostrarArgumento,
+        prefs.argumentoFinal,
         style: TextStyle(
             color: Colors.grey[800], fontWeight: FontWeight.bold, fontSize: 20),
       ),
@@ -127,6 +139,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Future<String> _conectarWeb(
       String _servicio, String _usuario, int _emergencia) async {
+    esperate = 1;
     _usuario = prefs.usuario.toString();
     _servicio = prefs.servicio;
     String url = "http://alarmasvecinales.tk/checar?usuario=" +
@@ -151,9 +164,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
       var _respuesta2 = await http.get(url2);
       if (_respuesta2.body == null) {}
-      String _resp3 = _respuesta2.toString();
+      String _resp3 = _respuesta2.body.toString();
       print(_resp3);
     }
+    esperate = 0;
+    return (_resp2);
   }
 
   //salida1 = int.parse(respuesta.body.substring(11, 12));
@@ -166,6 +181,7 @@ class _SettingsPageState extends State<SettingsPage> {
               str.substring(3);   // koder.com*/
 
   Future<String> _desconectarWeb(String _servicio, String _usuario) async {
+    esperate = 1;
     _usuario = prefs.usuario.toString();
     _servicio = prefs.servicio;
     print(_usuario);
@@ -190,12 +206,15 @@ class _SettingsPageState extends State<SettingsPage> {
 
       var _respuesta4 = await http.get(url5);
       if (_respuesta4.body == null) {}
-      String _resp5 = _respuesta4.toString();
+      String _resp5 = _respuesta4.body.toString();
       print(_resp5);
     }
+    esperate = 0;
+    return (_resp4);
   }
 
-  Future<String> _checarStatus() async {
+  /*Future<String> _checarStatus() async {
+    esperate = 1;
     _usuario = prefs.usuario.toString();
     _servicio = prefs.servicio;
     String url6 = "http://alarmasvecinales.tk/checar2?servicio=" + _servicio;
@@ -209,8 +228,9 @@ class _SettingsPageState extends State<SettingsPage> {
     print(_resp9);
     String _respuesta10 = _resp9 + " - " + _resp8;
     _mostrarArgumento = _respuesta10;
+    esperate = 0;
     return (_mostrarArgumento);
-  }
+  }*/
 
   Widget _logoCerberus() {
     return Image.network('http://alarmasvecinales.tk/images/logoapp.jpg',
